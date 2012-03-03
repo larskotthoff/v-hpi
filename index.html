@@ -20,6 +20,8 @@
             hairvar = -50,
             mouthvar = 5,
             nosevar = 7,
+            eyehvar = 5,
+            eyewvar = 8,
             line = d3.svg.line()
                 .interpolate("cardinal-closed")
                 .x(function(d) { return d.x; })
@@ -70,6 +72,23 @@
             .attr("fill", "none")
             .attr("stroke", "#000")
             .attr("d", line);
+
+        var leye = [{x: 135, y: 130-eyehvar}, {x: 140+eyewvar, y: 130},
+                    {x: 135, y: 130+eyehvar}, {x: 130-eyewvar, y: 130}];
+        var reye = [{x: 165, y: 130-eyehvar}, {x: 170+eyewvar, y: 130},
+                    {x: 165, y: 130+eyehvar}, {x: 160-eyewvar, y: 130}];
+        svg.selectAll("path.leye").data([leye]).enter()
+            .append("svg:path")
+            .attr("class", "leye")
+            .attr("fill", "none")
+            .attr("stroke", "#000")
+            .attr("d", bline);
+        svg.selectAll("path.reye").data([reye]).enter()
+            .append("svg:path")
+            .attr("class", "reye")
+            .attr("fill", "none")
+            .attr("stroke", "#000")
+            .attr("d", bline);
         })();
         </script>
     </body>
