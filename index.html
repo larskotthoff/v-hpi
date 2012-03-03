@@ -25,14 +25,29 @@
                 .append("svg:svg")
                 .attr("height", height)
                 .attr("width", width),
-            facevar = 20,
-            hairvar = -80,
-            mouthvar = 5,
-            nosewvar = 7,
-            nosehvar = 10,
-            eyehvar = 5,
-            eyewvar = 8,
-            browvar = 3,
+
+            facef = 0.5, // 0 - 1
+            facevar = facef * 30,
+
+            hairf = -0.5, // -1 - 1
+            hairvar = hairf * 80,
+
+            mouthf = 1, // -1 - 1
+            mouthvar = mouthf * 7,
+
+            nosehf = 1, // 0 - 1
+            nosewf = 0.5, // 0 - 1
+            nosehvar = nosehf * 10,
+            nosewvar = nosewf * 10,
+
+            eyehf = 0.8, // 0 - 1
+            eyewf = 1, // 0 - 1
+            eyehvar = eyehf * 10,
+            eyewvar = eyewf * 10,
+
+            browf = 1, // -1 - 1
+            browvar = browf * 3,
+
             line = d3.svg.line()
                 .interpolate("cardinal-closed")
                 .x(function(d) { return d.x; })
@@ -85,10 +100,10 @@
             .attr("stroke", "#000")
             .attr("d", line);
 
-        var leye = [{x: 135, y: 130-eyehvar}, {x: 140+eyewvar, y: 130},
-                    {x: 135, y: 130+eyehvar}, {x: 130-eyewvar, y: 130}];
-        var reye = [{x: 165, y: 130-eyehvar}, {x: 170+eyewvar, y: 130},
-                    {x: 165, y: 130+eyehvar}, {x: 160-eyewvar, y: 130}];
+        var leye = [{x: 135, y: 130-eyehvar}, {x: 135+eyewvar, y: 130},
+                    {x: 135, y: 130+eyehvar}, {x: 135-eyewvar, y: 130}];
+        var reye = [{x: 165, y: 130-eyehvar}, {x: 165+eyewvar, y: 130},
+                    {x: 165, y: 130+eyehvar}, {x: 165-eyewvar, y: 130}];
         svg.selectAll("path.leye").data([leye]).enter()
             .append("svg:path")
             .attr("class", "leye")
@@ -105,16 +120,16 @@
         svg.append("svg:path")
             .attr("class", "lbrow")
             .attr("stroke", "#000")
-            .attr("d", "M" + (135-eyewvar-sign(browvar)) + "," +
+            .attr("d", "M" + (135-eyewvar/1.7-sign(browvar)) + "," +
                        (127-eyehvar+browvar) + " " +
-                       (135+eyewvar-sign(browvar)) + "," +
+                       (135+eyewvar/1.7-sign(browvar)) + "," +
                        (127-eyehvar-browvar));
         svg.append("svg:path")
             .attr("class", "rbrow")
             .attr("stroke", "#000")
-            .attr("d", "M" + (165-eyewvar+sign(browvar)) + "," +
+            .attr("d", "M" + (165-eyewvar/1.7+sign(browvar)) + "," +
                        (127-eyehvar-browvar) + " " +
-                       (165+eyewvar+sign(browvar)) + "," +
+                       (165+eyewvar/1.7+sign(browvar)) + "," +
                        (127-eyehvar+browvar));
         })();
         </script>
