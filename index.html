@@ -19,6 +19,7 @@
             facevar = 20,
             hairvar = -50,
             mouthvar = 5,
+            nosevar = 7,
             line = d3.svg.line()
                 .interpolate("cardinal-closed")
                 .x(function(d) { return d.x; })
@@ -32,7 +33,6 @@
                     {x: 200-facevar, y: 150}, {x: 200-facevar, y: 200},
                     {x: 100+facevar, y: 200}, {x: 100+facevar, y: 150},
                     {x: 100, y: 120}];
-
         svg.selectAll("path.face").data([face]).enter()
             .append("svg:path")
             .attr("class", "face")
@@ -44,7 +44,6 @@
                     {x: 250, y: 85-hairvar}, {x: 200, y: 75},
                     {x: 150, y: 50}, {x: 100, y: 75},
                     {x: 50, y: 85-hairvar}, {x: 100, y: 120}];
-
         svg.selectAll("path.hair").data([hair]).enter()
             .append("svg:path")
             .attr("class", "hair")
@@ -56,10 +55,18 @@
                      {x: 190-facevar, y: 175-mouthvar},
                      {x: 150, y: 180+mouthvar},
                      {x: 110+facevar, y: 175-mouthvar}];
-
         svg.selectAll("path.mouth").data([mouth]).enter()
             .append("svg:path")
             .attr("class", "mouth")
+            .attr("fill", "none")
+            .attr("stroke", "#000")
+            .attr("d", line);
+
+        var nose = [{x: 150, y: 140}, {x: 150+nosevar, y: 160},
+                    {x: 150-nosevar, y: 160}];
+        svg.selectAll("path.nose").data([nose]).enter()
+            .append("svg:path")
+            .attr("class", "nose")
             .attr("fill", "none")
             .attr("stroke", "#000")
             .attr("d", line);
