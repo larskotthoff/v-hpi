@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chernoff faces</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <script type="text/javascript" src="../d3.js"></script>
+    </head>
+
+    <body>
+        <div id="face"></div>
+        <script type="text/javascript">
+        (function () {
+        var width = 400,
+            height = 400,
+            svg = d3.select("#face")
+                .append("svg:svg")
+                .attr("height", height)
+                .attr("width", width),
+            facevar = 20,
+            hairvar = -50,
+            line = d3.svg.line()
+                .interpolate("basis-closed")
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; }),
+            bline = d3.svg.line()
+                .interpolate("basis-closed")
+                .x(function(d) { return d.x; })
+                .y(function(d) { return d.y; });
+
+        var face = [{x: 150, y: 100}, {x: 200, y: 120},
+                    {x: 200-facevar, y: 150}, {x: 200-facevar, y: 200},
+                    {x: 100+facevar, y: 200}, {x: 100+facevar, y: 150},
+                    {x: 100, y: 120}];
+
+        var hair = [{x: 150, y: 100}, {x: 200, y: 120},
+                    {x: 250, y: 85-hairvar}, {x: 200, y: 75},
+                    {x: 150, y: 50}, {x: 100, y: 75},
+                    {x: 50, y: 85-hairvar}, {x: 100, y: 120}];
+
+        svg.selectAll("path.face").data([face]).enter()
+            .append("svg:path")
+            .attr("class", "face")
+            .attr("fill", "none")
+            .attr("stroke", "#000")
+            .attr("d", bline);
+
+        svg.selectAll("path.hair").data([hair]).enter()
+            .append("svg:path")
+            .attr("class", "hair")
+            .attr("fill", "none")
+            .attr("stroke", "#000")
+            .attr("d", line);
+        })();
+        </script>
+    </body>
+</html>
