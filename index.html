@@ -28,7 +28,8 @@
             facevar = 20,
             hairvar = -80,
             mouthvar = 5,
-            nosevar = 7,
+            nosewvar = 7,
+            nosehvar = 10,
             eyehvar = 5,
             eyewvar = 8,
             browvar = 3,
@@ -74,8 +75,9 @@
             .attr("stroke", "#000")
             .attr("d", line);
 
-        var nose = [{x: 150, y: 140}, {x: 150+nosevar, y: 160},
-                    {x: 150-nosevar, y: 160}];
+        var nose = [{x: 150, y: 150-nosehvar},
+                    {x: 150+nosewvar, y: 150+nosehvar},
+                    {x: 150-nosewvar, y: 150+nosehvar}];
         svg.selectAll("path.nose").data([nose]).enter()
             .append("svg:path")
             .attr("class", "nose")
