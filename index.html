@@ -19,8 +19,8 @@
             }
         }
         (function () {
-        var width = 400,
-            height = 400,
+        var width = 140,
+            height = 160,
             svg = d3.select("#face")
                 .append("svg:svg")
                 .attr("height", height)
@@ -57,10 +57,10 @@
                 .x(function(d) { return d.x; })
                 .y(function(d) { return d.y; });
 
-        var face = [{x: 150, y: 100}, {x: 200, y: 120},
-                    {x: 200-facevar, y: 150}, {x: 200-facevar, y: 200},
-                    {x: 100+facevar, y: 200}, {x: 100+facevar, y: 150},
-                    {x: 100, y: 120}];
+        var face = [{x: 70, y: 60}, {x: 120, y: 80},
+                    {x: 120-facevar, y: 110}, {x: 120-facevar, y: 160},
+                    {x: 20+facevar, y: 160}, {x: 20+facevar, y: 110},
+                    {x: 20, y: 80}];
         svg.selectAll("path.face").data([face]).enter()
             .append("svg:path")
             .attr("class", "face")
@@ -68,10 +68,10 @@
             .attr("stroke", "#000")
             .attr("d", bline);
 
-        var hair = [{x: 150, y: 100}, {x: 200, y: 120},
-                    {x: 220, y: 85-hairvar}, {x: 200, y: 85},
-                    {x: 150, y: 70}, {x: 100, y: 85},
-                    {x: 80, y: 85-hairvar}, {x: 100, y: 120}];
+        var hair = [{x: 70, y: 60}, {x: 120, y: 80},
+                    {x: 140, y: 45-hairvar}, {x: 120, y: 45},
+                    {x: 70, y: 30}, {x: 20, y: 45},
+                    {x: 0, y: 45-hairvar}, {x: 20, y: 80}];
         svg.selectAll("path.hair").data([hair]).enter()
             .append("svg:path")
             .attr("class", "hair")
@@ -79,10 +79,10 @@
             .attr("stroke", "#000")
             .attr("d", bline);
 
-        var mouth = [{x: 150, y: 170+mouthvar},
-                     {x: 190-facevar, y: 175-mouthvar},
-                     {x: 150, y: 180+mouthvar},
-                     {x: 110+facevar, y: 175-mouthvar}];
+        var mouth = [{x: 70, y: 130+mouthvar},
+                     {x: 110-facevar, y: 135-mouthvar},
+                     {x: 70, y: 140+mouthvar},
+                     {x: 30+facevar, y: 135-mouthvar}];
         svg.selectAll("path.mouth").data([mouth]).enter()
             .append("svg:path")
             .attr("class", "mouth")
@@ -90,9 +90,9 @@
             .attr("stroke", "#000")
             .attr("d", line);
 
-        var nose = [{x: 150, y: 150-nosehvar},
-                    {x: 150+nosewvar, y: 150+nosehvar},
-                    {x: 150-nosewvar, y: 150+nosehvar}];
+        var nose = [{x: 70, y: 110-nosehvar},
+                    {x: 70+nosewvar, y: 110+nosehvar},
+                    {x: 70-nosewvar, y: 110+nosehvar}];
         svg.selectAll("path.nose").data([nose]).enter()
             .append("svg:path")
             .attr("class", "nose")
@@ -100,10 +100,10 @@
             .attr("stroke", "#000")
             .attr("d", line);
 
-        var leye = [{x: 135, y: 130-eyehvar}, {x: 135+eyewvar, y: 130},
-                    {x: 135, y: 130+eyehvar}, {x: 135-eyewvar, y: 130}];
-        var reye = [{x: 165, y: 130-eyehvar}, {x: 165+eyewvar, y: 130},
-                    {x: 165, y: 130+eyehvar}, {x: 165-eyewvar, y: 130}];
+        var leye = [{x: 55, y: 90-eyehvar}, {x: 55+eyewvar, y: 90},
+                    {x: 55, y: 90+eyehvar}, {x: 55-eyewvar, y: 90}];
+        var reye = [{x: 85, y: 90-eyehvar}, {x: 85+eyewvar, y: 90},
+                    {x: 85, y: 90+eyehvar}, {x: 85-eyewvar, y: 90}];
         svg.selectAll("path.leye").data([leye]).enter()
             .append("svg:path")
             .attr("class", "leye")
@@ -120,17 +120,17 @@
         svg.append("svg:path")
             .attr("class", "lbrow")
             .attr("stroke", "#000")
-            .attr("d", "M" + (135-eyewvar/1.7-sign(browvar)) + "," +
-                       (127-eyehvar+browvar) + " " +
-                       (135+eyewvar/1.7-sign(browvar)) + "," +
-                       (127-eyehvar-browvar));
+            .attr("d", "M" + (55-eyewvar/1.7-sign(browvar)) + "," +
+                       (87-eyehvar+browvar) + " " +
+                       (55+eyewvar/1.7-sign(browvar)) + "," +
+                       (87-eyehvar-browvar));
         svg.append("svg:path")
             .attr("class", "rbrow")
             .attr("stroke", "#000")
-            .attr("d", "M" + (165-eyewvar/1.7+sign(browvar)) + "," +
-                       (127-eyehvar-browvar) + " " +
-                       (165+eyewvar/1.7+sign(browvar)) + "," +
-                       (127-eyehvar+browvar));
+            .attr("d", "M" + (85-eyewvar/1.7+sign(browvar)) + "," +
+                       (87-eyehvar-browvar) + " " +
+                       (85+eyewvar/1.7+sign(browvar)) + "," +
+                       (87-eyehvar+browvar));
         })();
         </script>
     </body>
