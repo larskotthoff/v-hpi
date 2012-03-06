@@ -31,16 +31,16 @@
                 .attr("height", 500).attr("width", 500),
             dat = [
                 {x: 0, y: 0, f: 0.5, h: 0.5, m: 0.5, n: 0.5, e: 0.5, b: 0.5 },
-                {x: 250, y: 0, f: 0.5, h: 0.5, m: -0.5, n: 0.5, e: 0.5, b: 0.5 },
-                {x: 0, y: 250, f: 0.5, h: -0.5, m: 0.5, n: 0.5, e: 0.5, b: 0.5 },
-                {x: 250, y: 250, f: 0.5, h: -0.5, m: -0.5, n: 0.5, e: 0.5, b: 0.5 },
+                {x: 200, y: 0, f: 0.5, h: 0.5, m: -0.5, n: 0.5, e: 0.5, b: 0.5 },
+                {x: 0, y: 200, f: 0.5, h: -0.5, m: 0.5, n: 0.5, e: 0.5, b: 0.5 },
+                {x: 200, y: 200, f: 0.5, h: -0.5, m: -0.5, n: 0.5, e: 0.5, b: 0.5 },
                 ];
 
         svg.selectAll("g.chernoff").data(dat).enter()
             .append("svg:g")
             .attr("class", "chernoff")
             .attr("transform", function(d) {
-                return "translate(" + d.x + "," + d.y + ")";
+                return "scale(1.3)translate(" + d.x + "," + d.y + ")";
             })
             .call(c);
         })();

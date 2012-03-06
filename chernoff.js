@@ -9,18 +9,14 @@ function sign(num) {
 }
 
 function d3_chernoff() {
-    function nil() {
-        return 0;
-    }
-
-    var facef = nil, // 0 - 1
-        hairf = nil, // -1 - 1
-        mouthf = nil, // -1 - 1
-        nosehf = nil, // 0 - 1
-        nosewf = nil, // 0 - 1
-        eyehf = nil, // 0 - 1
-        eyewf = nil, // 0 - 1
-        browf = nil, // -1 - 1
+    var facef = 0, // 0 - 1
+        hairf = 0, // -1 - 1
+        mouthf = 0, // -1 - 1
+        nosehf = 0, // 0 - 1
+        nosewf = 0, // 0 - 1
+        eyehf = 0, // 0 - 1
+        eyewf = 0, // 0 - 1
+        browf = 0, // -1 - 1
 
         line = d3.svg.line()
             .interpolate("cardinal-closed")
@@ -41,14 +37,14 @@ function d3_chernoff() {
 
     function __chernoff(d) {
         var ele = d3.select(this),
-            facevar = facef(d) * 30,
-            hairvar = hairf(d) * 80,
-            mouthvar = mouthf(d) * 7,
-            nosehvar = nosehf(d) * 10,
-            nosewvar = nosewf(d) * 10,
-            eyehvar = eyehf(d) * 10,
-            eyewvar = eyewf(d) * 10,
-            browvar = browf(d) * 3;
+            facevar = (typeof(facef) === "function" ? facef(d) : facef) * 30,
+            hairvar = (typeof(hairf) === "function" ? hairf(d) : hairf) * 80,
+            mouthvar = (typeof(mouthf) === "function" ? mouthf(d) : mouthf) * 7,
+            nosehvar = (typeof(nosehf) === "function" ? nosehf(d) : nosehf) * 10,
+            nosewvar = (typeof(nosewf) === "function" ? nosewf(d) : nosewf) * 10,
+            eyehvar = (typeof(eyehf) === "function" ? eyehf(d) : eyehf) * 10,
+            eyewvar = (typeof(eyewf) === "function" ? eyewf(d) : eyewf) * 10,
+            browvar = (typeof(browf) === "function" ? browf(d) : browf) * 3;
 
         var face = [{x: 70, y: 60}, {x: 120, y: 80},
                     {x: 120-facevar, y: 110}, {x: 120-facevar, y: 160},
