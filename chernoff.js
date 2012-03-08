@@ -9,13 +9,13 @@ function sign(num) {
 }
 
 function d3_chernoff() {
-    var facef = 0, // 0 - 1
+    var facef = 0.5, // 0 - 1
         hairf = 0, // -1 - 1
         mouthf = 0, // -1 - 1
-        nosehf = 0, // 0 - 1
-        nosewf = 0, // 0 - 1
-        eyehf = 0, // 0 - 1
-        eyewf = 0, // 0 - 1
+        nosehf = 0.5, // 0 - 1
+        nosewf = 0.5, // 0 - 1
+        eyehf = 0.5, // 0 - 1
+        eyewf = 0.5, // 0 - 1
         browf = 0, // -1 - 1
 
         line = d3.svg.line()
