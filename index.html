@@ -8,9 +8,16 @@
         <script type="text/javascript" src="chernoff.js"></script>
         <script type="text/javascript" src="../jquery-1.6.2.min.js"></script>
         <style type="text/css">
+body {
+  background-color: #faf5df;
+  font: 12px Verdana, Palatino, Helvetica, sans;
+}
+text {
+}
+
 .chernoff:hover > * {
-    stroke-width: 2;
-    stroke: #f00;
+    stroke-width: 4;
+    stroke: #2219b2;
 }
 
 path {
@@ -22,51 +29,68 @@ path.overlay {
     fill-opacity: 0;
 }
 path.overlay:hover {
-    stroke-width: 2;
-    stroke: #f00;
+    stroke-width: 4;
+    stroke: #2219b2;
 }
 
 .active > * {
-    stroke-width: 2;
-    stroke: #f00;
+    stroke-width: 4;
+    stroke: #2219b2;
 }
 path.active {
-    stroke-width: 2;
-    stroke: #f00;
+    stroke-width: 4;
+    stroke: #2219b2;
 }
         </style>
     </head>
 
     <body>
         <div id="map"></div>
-        <div id="text"></div>
+        <div id="text"
+            style="position: absolute; left: 150px; top: 150px; width: 200px;">
+        <h1>Happy Planet Index</h1>
+        The colour of the faces and countries shows the
+        <a href="http://www.happyplanetindex.org/">Happy Planet Index</a>
+        value. This is also reflected in the shape of the mouths. The slant of
+        the brows reflects the number of Happy Life years. The shape of
+        the face is determined by the GDP per capita. The Human Development
+        Index is shown in the shape of the hair.
+        </div>
+        <div style="position: absolute; bottom: 10px; left: 10px;">
+            Data from
+            <a href="http://www.happyplanetindex.org/">Happy Planet Index</a>.
+        </div>
+        <div style="position: absolute; bottom: 10px; right: 10px;">
+            Lars Kotthoff 2012
+        </div>
         <script type="text/javascript">
         (function () {
         var proj = d3.geo.equirectangular().scale(1).translate([0,0]),
             path = d3.geo.path().projection(proj),
+            transdur = 300,
             margin = 25,
             width = window.innerWidth - margin,
-            height = window.innerHeight - margin,
+            height = window.innerHeight - 2*margin,
             svg = d3.select("#map")
                 .append("svg:svg")
                 .attr("height", height)
                 .attr("width", width),
             map = svg.append("svg:g")
-                .attr("transform", "translate(0," + 100 + ")")
+                .attr("transform", "translate(100,100)")
                 .append("svg:g"),
             rb = svg.append("svg:g");
 
         d3.json("hpi.geojson", function(json) {
             var bounds0 = d3.geo.bounds(json),
                 bounds = bounds0.map(proj),
-                xscale = (width-100)/Math.abs(bounds[1][0] - bounds[0][0]),
-                yscale = (height-100)/Math.abs(bounds[1][1] - bounds[0][1]),
+                xscale = (width-200)/Math.abs(bounds[1][0] - bounds[0][0]),
+                yscale = (height-200)/Math.abs(bounds[1][1] - bounds[0][1]),
                 scale = Math.min(xscale, yscale);
 
             if(xscale > yscale) {
                 var d = xscale * Math.abs(bounds[1][0] - bounds[0][0]) -
                     yscale * Math.abs(bounds[1][0] - bounds[0][0]);
-                map.attr("transform", "translate(" + d/2 + ", 0)");
+                map.attr("transform", "translate(" + d + ", 0)");
             } else {
                 var d = yscale * Math.abs(bounds[1][1] - bounds[0][1]) -
                     xscale * Math.abs(bounds[1][1] - bounds[0][1]);
@@ -76,11 +100,61 @@ path.active {
             proj.scale(scale);
             proj.translate(proj([-bounds0[0][0], -bounds0[1][1]]));
 
+            var ncountries = json.features.length,
+                fx = Math.round(ncountries/4 * width/height)-2,
+                fy = Math.round(ncountries/4 * height/width);
+
+            function fpos(idx, off) {
+                var dx = dy = 0;
+                if(idx < fx || (idx >= fx + fy && idx < 2*fx+fy)) {
+                    dx = idx%fx * (width/fx);
+                } else if(idx >= 2*fx+fy) {
+                    dx = 0;
+                } else {
+                    dx = width - 100;
+                };
+                if(idx < fx) {
+                    dy = 0;
+                } else if(idx >= fx + fy && idx < 2*fx+fy) {
+                    dy = height - 100;
+                } else if(idx >= fx || (idx >= 2*fx+fy)) {
+                    dy = 100 + idx%fy * ((height-200)/fy);
+                };
+                return "translate(" + (dx-off) + "," + (dy-off) + ")";
+            }
+
+            function displayText(f) {
+                $("#text").empty();
+                $("#text").append("<h1>" + f.p.name + "</h1>")
+                    .append("<dl>")
+                    .append("<dt><strong>Happy Planet Index</strong>")
+                    .append("<dd>" + f.p.hpi)
+                    .append("<dt><strong>Happy Life years</strong>")
+                    .append("<dd>" + f.p.hly)
+                    .append("<dt><strong>GDP per capita (US-$ PPP)</strong>")
+                    .append("<dd>" + f.p.gdppc)
+                    .append("<dt><strong>Human Development Index</strong>")
+                    .append("<dd>" + f.p.hdi)
+                    .append("</dl>");
+            }
+
+            function resetText() {
+                $("#text").empty();
+                $("#text").append("<h1>Happy Planet Index</h1>")
+                    .append("The colour of the faces and countries shows the")
+                    .append(" <a href=\"http://www.happyplanetindex.org/\">Happy Planet Index</a>")
+                    .append(" value. This is also reflected in the shape of the mouths. The slant of")
+                    .append(" the brows reflects the number of Happy Life years.  The shape of")
+                    .append(" the face is determined by the GDP per capita. The Human Development")
+                    .append(" Index is shown in the shape of the hair.");
+            }
+            resetText();
+
             var hpiex = d3.extent($.map(json.features, function(f) {
                     return f.p.hpi;
                 })),
                 hpicscale = d3.scale.linear().domain(hpiex)
-                    .range(["#fff", "#000"]),
+                    .range(["#fff140", "#a66200"]),
                 hpiscale = d3.scale.linear().domain(hpiex).range([-1, 1]),
                 hlyex = d3.extent($.map(json.features, function(f) {
                     return f.p.hly;
@@ -114,33 +188,41 @@ path.active {
                 .enter().append("svg:path")
                 .attr("class", "overlay")
                 .attr("d", path)
-                .on("mouseover", function(f) {
+                .on("mouseover", function(f, i) {
                     rb.selectAll("g.chernoff").data([f], function(e) {
                             return e.p.name;
-                        }).classed("active", true);
+                        }).classed("active", true)
+                        .transition().duration(transdur)
+                        .attr("transform", fpos(i, 5) + "scale(.65)");
+                    displayText(f);
                 })
-                .on("mouseout", function(f) {
+                .on("mouseout", function(f, i) {
                     rb.selectAll("g.chernoff").data([f], function(e) {
                             return e.p.name;
-                        }).classed("active", false);
+                        }).classed("active", false)
+                        .transition().duration(transdur)
+                        .attr("transform", fpos(i, 0) + "scale(.6)");
+                    resetText();
                 });
 
             rb.selectAll("g.chernoff").data(fWithData).enter()
                 .append("svg:g")
                 .attr("class", "chernoff")
                 .attr("transform", function(d, i) {
-                    return "translate(" + i*50 + ",0)scale(.5)";
+                    return fpos(i, 0) + "scale(.6)";
                 })
                 .attr("fill", function(d) { return hpicscale(d.p.hpi); })
                 .on("mouseover", function(f) {
                     map.selectAll("path.overlay").data([f], function(e) {
                             return e.p.name;
                         }).classed("active", true);
+                    displayText(f);
                 })
                 .on("mouseout", function(f) {
                     map.selectAll("path.overlay").data([f], function(e) {
                             return e.p.name;
                         }).classed("active", false);
+                    resetText();
                 })
                 .call(c);
         });
