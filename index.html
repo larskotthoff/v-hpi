@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Chernoff faces</title>
+        <title>Happy Planet Index</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <script type="text/javascript" src="../d3.min.js"></script>
         <script type="text/javascript" src="../d3.geo.min.js"></script>
@@ -167,7 +167,7 @@ path.active {
                 gdpex = d3.extent($.map(json.features, function(f) {
                     return f.p.gdppc;
                 })),
-                gdpscale = d3.scale.linear().domain(gdpex).range([0, 1]),
+                gdpscale = d3.scale.linear().domain(gdpex).range([1, 0]),
                 fWithData = $.grep(json.features, function(f) {
                     return f.p.hpi != undefined;
                 });
